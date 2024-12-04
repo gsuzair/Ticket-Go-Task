@@ -16,9 +16,14 @@ class VendorsTableSeeder extends Seeder
     {
         $faker = Faker::create();
         for ($i = 0; $i < 1000; $i++) {
-            Vendor::create([
+            $vendors[] = [
                 'name' => $faker->company,
-            ]);
+                'created_at' => NOW(),
+                'updated_at' => NOW(),
+            ];
         }
+
+        Vendor::insert($vendors);
+
     }
 }
