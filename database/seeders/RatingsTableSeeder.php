@@ -30,7 +30,7 @@ class RatingsTableSeeder extends Seeder
             $fakerDescriptions[] = addslashes($faker->text(12));
         }
 
-        Product::chunk(800, function ($products, $chunkIndex) use ($fakerFirstName, $fakerLastName, $fakerDescriptions){
+        Product::chunk(800, function ($products) use ($fakerFirstName, $fakerLastName, $fakerDescriptions){
             foreach ($products as $product) {
                 $numRatings = rand(1, 50);
                 for ($k = 0; $k < $numRatings; $k++) {
