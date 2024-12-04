@@ -15,16 +15,17 @@ class ProductsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $faker = Faker::create();
-        $vendors = Vendor::all();
-        foreach ($vendors as $vendor) {
-            $numProducts = rand(100, 500);
-            for ($j = 0; $j < $numProducts; $j++) {
-                Product::create([
-                    'vendor_id' => $vendor->id,
-                    'name' => $faker->name,
-                ]);
+        Vendor::chunk(1000, function ($vendors) {
+            $faker = Faker::create();
+            foreach ($vendors as $vendor) {
+                $numProducts = rand(100, 500);
+                for ($j = 0; $j < $numProducts; $j++) {
+                    Product::create([
+                        'vendor_id' => $vendor->id,
+                        'name' => $faker->name,
+                    ]);
+                }
             }
-        }
+        });
     }
 }
