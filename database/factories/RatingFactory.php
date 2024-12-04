@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Rating;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -14,8 +15,10 @@ class RatingFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => null, // This will be set when creating the ratings
+            'product_id' => null, 
             'rating' => $this->faker->numberBetween(1, 5),
+            'name' => $this->faker->name,
+            'text' => $this->faker->description,
         ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -15,7 +16,7 @@ class ProductFactory extends Factory
     {
         return [
             'name' => $this->faker->word,
-            'vendor_id' => null, // This will be set when creating the products
+            'vendor_id' => null,
         ];
     }
 }
