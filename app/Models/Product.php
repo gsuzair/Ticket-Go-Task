@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -16,7 +17,7 @@ class Product extends Model
         return $this->hasMany(Rating::class);
     }
 
-    public static function getProductsWithPagination(){
+    public static function getProductsWithPagination(){    
         return Product::paginate(15);
     }
 }

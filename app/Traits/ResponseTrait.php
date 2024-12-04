@@ -12,12 +12,13 @@ trait ResponseTrait
      * @param int $statusCode
      * @return \Illuminate\Http\JsonResponse
      */
-    public function successResponse($data = null, $message = 'Request was successful.', $statusCode = 200)
+    public function successResponse($data = null, $message = 'Request was successful.', $meta = [], $statusCode = 200)
     {
         return response()->json([
             'success' => true,
             'message' => $message,
             'data' => $data,
+            'meta' => $meta,
         ], $statusCode);
     }
 
