@@ -17,7 +17,12 @@ class Product extends Model
         return $this->hasMany(Rating::class);
     }
 
+    public function vendor()
+    {
+        return $this->belongsTo(Vendor::class);
+    }
+
     public static function getProductsWithPagination(){    
-        return Product::paginate(15);
+        return Product::with(['vendor', 'ratings'])->paginate(15);
     }
 }
