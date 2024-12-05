@@ -12,7 +12,9 @@ This repository contains a solution to the assigned task. Follow the instruction
 ## Setup Instructions
 
 1. **Clone the Repository**
-2. **Install Dependencies**
+- Clone the repository using the following git command:
+  git clone https://github.com/gsuzair/Ticket-Go-Task
+3. **Install Dependencies**
 - Run the following command to install the necessary packages:
   composer install
 3. **Set Up Environment Variables**
