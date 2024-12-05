@@ -30,11 +30,12 @@ trait ResponseTrait
      * @param mixed $data
      * @return \Illuminate\Http\JsonResponse
      */
-    public function errorResponse($message = 'Request failed.', $statusCode = 400, $data = null)
+    public function errorResponse($message = 'Request failed.', $statusCode = 400, $errors = [], $data = null)
     {
         return response()->json([
             'success' => false,
             'message' => $message,
+            'errors' => $errors,
             'data' => $data,
         ], $statusCode);
     }

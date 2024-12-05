@@ -15,7 +15,7 @@ class ProductController extends Controller implements ResponseInterface
     use ResponseTrait;
     public function getProducts(ProductRequest $request){
         try {
-            $requestData = $request->all();
+            $requestData = $request->validated();
             $products = Product::getProductsWithPagination($requestData);
             return $this->successResponse($products, 'Products retrieved successfully.');
         } catch (Exception $e) {

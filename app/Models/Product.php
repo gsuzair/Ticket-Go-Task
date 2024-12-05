@@ -24,7 +24,8 @@ class Product extends Model
 
     public static function getProductsWithPagination($requestData){
         $vendorId = $requestData['vendor_id'] ?? null;    
-        $vendorName = $requestData['name'] ?? null;    
+        $vendorName = $requestData['name'] ?? null;
+        $perPage =  $requestData['per_page'] ?? 15;
         return Product::with(['vendor:id,name', 'ratings:product_id,name,rating,text'])
             ->when($vendorId || $vendorName, function ($query) use ($vendorId, $vendorName) {
                 $query->whereHas('vendor', function ($query) use ($vendorId, $vendorName) {
@@ -32,10 +33,10 @@ class Product extends Model
                         $query->where('id', $vendorId);
                     }
                     if ($vendorName) {
-                        $query->where('name', 'like', '%' . $vendorName . '%');
+                        $query->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($vendorName) . '%']);
                     }
                 });
             })
-            ->paginate(15);
+            ->paginate($perPage);
     }
 }

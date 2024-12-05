@@ -2,10 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Traits\ResponseTrait;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ProductRequest extends FormRequest
 {
+    use ResponseTrait;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -42,5 +46,13 @@ class ProductRequest extends FormRequest
             'per_page.min' => 'Per page must be at least 1.',
             'per_page.max' => 'Per page may not be greater than 100.',
         ];
+    }
+
+    /**
+     * Customize the response for validation failure.
+     */
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException($this->errorResponse('Validation errors.', 400, $validator->errors()));
     }
 }
