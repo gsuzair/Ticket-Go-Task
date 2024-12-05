@@ -21,7 +21,6 @@ trait ResponseTrait
             'success' => true,
             'message' => $message,
             'data' => $data,
-            'meta' => $meta,
         ], $statusCode);
     }
 

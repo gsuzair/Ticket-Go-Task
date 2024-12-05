@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "My API",
+        "title": "Ticket GO task APIs",
         "description": "API documentation for Ticket Go task",
         "version": "1.0.0"
     },
@@ -14,6 +14,46 @@
                 "summary": "Get list of products",
                 "description": "Retrieves a paginated list of products with vendor and ratings details.",
                 "operationId": "9825833dfca153a232f3076fa4540b35",
+                "parameters": [
+                    {
+                        "name": "vendor_id",
+                        "in": "query",
+                        "description": "Filter products by vendor ID.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Filter products by name.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number for pagination.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "per_page",
+                        "in": "query",
+                        "description": "Number of items per page.",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful retrieval of product data",

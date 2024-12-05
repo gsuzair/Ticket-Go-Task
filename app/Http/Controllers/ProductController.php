@@ -10,6 +10,9 @@ use App\Traits\ResponseTrait;
 use Illuminate\Support\Facades\Log;
 use App\Interfaces\ResponseInterface;
 use App\Http\Requests\ProductRequest;
+use App\Services\MetaService;
+use App\Services\ProductService;
+use App\Services\ResponseService;
 use App\Utils\Constants;
 
 /**
@@ -23,12 +26,51 @@ class ProductController extends Controller implements ResponseInterface
 {
     use ResponseTrait;
 
+    protected $productService;
+    protected $metaService;
+    protected $responseService;
+
+    public function __construct(ProductService $productService, MetaService $metaService, ResponseService $responseService)
+    {
+        $this->productService = $productService;
+        $this->metaService = $metaService;
+        $this->responseService = $responseService;
+    }
+
     /**
      * @OA\Get(
      *     path="/api/products",
      *     summary="Get list of products",
      *     description="Retrieves a paginated list of products with vendor and ratings details.",
      *     tags={"Products"},
+     *     @OA\Parameter(
+     *         name="vendor_id",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer"),
+     *         description="Filter products by vendor ID."
+     *     ),
+     *     @OA\Parameter(
+     *         name="name",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="string"),
+     *         description="Filter products by name."
+     *     ),
+     *     @OA\Parameter(
+     *         name="page",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer", default=1),
+     *         description="Page number for pagination."
+     *     ),
+     *     @OA\Parameter(
+     *         name="per_page",
+     *         in="query",
+     *         required=false,
+     *         @OA\Schema(type="integer", default=15),
+     *         description="Number of items per page."
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful retrieval of product data",
@@ -110,18 +152,22 @@ class ProductController extends Controller implements ResponseInterface
     public function getProducts(ProductRequest $request){
         try {
             $requestData = $request->validated();
-            $products = Product::getProductsWithPagination($requestData);
-            if ($products->total() === 0) {
-                return $this->successResponse(
-                    [],
-                    Constants::apiMessages['products']['no_products_found'],
-                );
+            $products = $this->productService->getPaginatedProducts($requestData);
+
+            if ($products->isEmpty()) {
+                return $this->successResponse([], Constants::apiMessages['products']['no_products_found']);
             }
-            return $this->successResponse($products, Constants::apiMessages['products']['success']);
+
+            $meta = $this->metaService->buildMeta($products);
+            $response = $this->responseService->formatResponse($products->items(), $meta);
+
+            return $this->successResponse($response, Constants::apiMessages['products']['success']);
         } catch (Exception $e) {
             Log::error($e->getMessage());
-
-            return $this->errorResponse(Constants::apiMessages['internal_server_error'], Constants::statusCodes['internal_server_error']);
+            return $this->errorResponse(
+                Constants::apiMessages['internal_server_error'],
+                Constants::statusCodes['internal_server_error']
+            );
         }
     }
 }
