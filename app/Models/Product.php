@@ -22,7 +22,20 @@ class Product extends Model
         return $this->belongsTo(Vendor::class);
     }
 
-    public static function getProductsWithPagination(){    
-        return Product::with(['vendor', 'ratings'])->paginate(15);
+    public static function getProductsWithPagination($requestData){
+        $vendorId = $requestData['vendor_id'] ?? null;    
+        $vendorName = $requestData['name'] ?? null;    
+        return Product::with(['vendor:id,name', 'ratings:product_id,name,rating,text'])
+            ->when($vendorId || $vendorName, function ($query) use ($vendorId, $vendorName) {
+                $query->whereHas('vendor', function ($query) use ($vendorId, $vendorName) {
+                    if ($vendorId) {
+                        $query->where('id', $vendorId);
+                    }
+                    if ($vendorName) {
+                        $query->where('name', 'like', '%' . $vendorName . '%');
+                    }
+                });
+            })
+            ->paginate(15);
     }
 }
