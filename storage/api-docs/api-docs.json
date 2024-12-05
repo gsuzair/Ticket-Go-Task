@@ -2,23 +2,220 @@
     "openapi": "3.0.0",
     "info": {
         "title": "My API",
-        "description": "API documentation for my Laravel app",
+        "description": "API documentation for Ticket Go task",
         "version": "1.0.0"
     },
     "paths": {
         "/api/products": {
             "get": {
+                "tags": [
+                    "Products"
+                ],
                 "summary": "Get list of products",
+                "description": "Retrieves a paginated list of products with vendor and ratings details.",
                 "operationId": "9825833dfca153a232f3076fa4540b35",
                 "responses": {
                     "200": {
-                        "description": "Success"
+                        "description": "Successful retrieval of product data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Indicates if the request was successful.",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "description": "Status message.",
+                                            "type": "string",
+                                            "example": "Products retrieved successfully."
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "description": "Current page number.",
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "data": {
+                                                    "description": "List of products.",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "description": "Unique product identifier.",
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "description": "Name of the product.",
+                                                                "type": "string",
+                                                                "example": "ea odit"
+                                                            },
+                                                            "vendor_id": {
+                                                                "description": "ID of the vendor.",
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "vendor": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "description": "Vendor ID.",
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "name": {
+                                                                        "description": "Vendor name.",
+                                                                        "type": "string",
+                                                                        "example": "Kris-Zemlak"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            },
+                                                            "ratings": {
+                                                                "description": "List of ratings for the product.",
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "properties": {
+                                                                        "product_id": {
+                                                                            "description": "ID of the product.",
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "name": {
+                                                                            "description": "Name of the reviewer.",
+                                                                            "type": "string",
+                                                                            "example": "Erin Hansen"
+                                                                        },
+                                                                        "rating": {
+                                                                            "description": "Rating given by the reviewer.",
+                                                                            "type": "integer",
+                                                                            "example": 5
+                                                                        },
+                                                                        "text": {
+                                                                            "description": "Review text.",
+                                                                            "type": "string",
+                                                                            "example": "Expedita."
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "meta": {
+                                                    "properties": {
+                                                        "first_page_url": {
+                                                            "description": "URL of the first page.",
+                                                            "type": "string",
+                                                            "example": "http://ticket-go-task.test/api/products?page=1"
+                                                        },
+                                                        "last_page": {
+                                                            "description": "Last page number.",
+                                                            "type": "integer",
+                                                            "example": 262
+                                                        },
+                                                        "last_page_url": {
+                                                            "description": "URL of the last page.",
+                                                            "type": "string",
+                                                            "example": "http://ticket-go-task.test/api/products?page=262"
+                                                        },
+                                                        "next_page_url": {
+                                                            "description": "URL of the next page.",
+                                                            "type": "string",
+                                                            "example": "http://ticket-go-task.test/api/products?page=2"
+                                                        },
+                                                        "prev_page_url": {
+                                                            "description": "URL of the previous page.",
+                                                            "type": "string",
+                                                            "example": null,
+                                                            "nullable": true
+                                                        },
+                                                        "path": {
+                                                            "description": "Base URL of the resource.",
+                                                            "type": "string",
+                                                            "example": "http://ticket-go-task.test/api/products"
+                                                        },
+                                                        "per_page": {
+                                                            "description": "Number of items per page.",
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "total": {
+                                                            "description": "Total number of items available.",
+                                                            "type": "integer",
+                                                            "example": 262
+                                                        },
+                                                        "links": {
+                                                            "description": "Pagination links.",
+                                                            "type": "array",
+                                                            "items": {
+                                                                "properties": {
+                                                                    "url": {
+                                                                        "description": "URL for the link.",
+                                                                        "type": "string",
+                                                                        "example": "http://ticket-go-task.test/api/products?page=1",
+                                                                        "nullable": true
+                                                                    },
+                                                                    "label": {
+                                                                        "description": "Label for the link.",
+                                                                        "type": "string",
+                                                                        "example": "1"
+                                                                    },
+                                                                    "active": {
+                                                                        "description": "Indicates if the link is active.",
+                                                                        "type": "boolean",
+                                                                        "example": true
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "400": {
-                        "description": "Error"
+                        "description": "Error response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "description": "Indicates if the request failed.",
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "description": "Error message.",
+                                            "type": "string",
+                                            "example": "Bad request."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
-    }
+    },
+    "tags": [
+        {
+            "name": "Products",
+            "description": "Products"
+        }
+    ]
 }

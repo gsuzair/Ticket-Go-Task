@@ -2,6 +2,8 @@
 
 namespace App\Traits;
 
+use App\Utils\Constants;
+
 trait ResponseTrait
 {
     /**
@@ -12,9 +14,10 @@ trait ResponseTrait
      * @param int $statusCode
      * @return \Illuminate\Http\JsonResponse
      */
-    public function successResponse($data = null, $message = 'Request was successful.', $meta = [], $statusCode = 200)
+    public function successResponse($data = null, $message = 'Request was successful.', $meta = [], $statusCode = Constants::statusCodes['success'])
     {
         return response()->json([
+            'status_code' => $statusCode,
             'success' => true,
             'message' => $message,
             'data' => $data,
@@ -30,9 +33,10 @@ trait ResponseTrait
      * @param mixed $data
      * @return \Illuminate\Http\JsonResponse
      */
-    public function errorResponse($message = 'Request failed.', $statusCode = 400, $errors = [], $data = null)
+    public function errorResponse($message = 'Request failed.', $statusCode = Constants::statusCodes['error'], $errors = [], $data = null)
     {
         return response()->json([
+            'status_code' => $statusCode,
             'success' => false,
             'message' => $message,
             'errors' => $errors,
