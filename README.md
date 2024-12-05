@@ -12,6 +12,3 @@ This repository contains a solution to the assigned task. Follow the instruction
 ## Setup Instructions
 
 1. **Clone the Repository**  
-   ```bash
-   git clone <repository-url>
-   cd <repository-name>
