@@ -24,6 +24,7 @@ class Constants
     public const statusCodes = [
         'success' => 200,
         'error' => 400,
+        'validation_errors' => 422,
         'internal_server_error' => 500,
     ];
 

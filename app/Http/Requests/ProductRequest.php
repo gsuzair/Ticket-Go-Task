@@ -54,6 +54,6 @@ class ProductRequest extends FormRequest
      */
     protected function failedValidation(Validator $validator)
     {
-        throw new HttpResponseException($this->errorResponse('Validation errors.', Constants::statusCodes['error'], $validator->errors()));
+        throw new HttpResponseException($this->errorResponse('Validation errors.', Constants::statusCodes['validation_errors'], $validator->errors()));
     }
 }
