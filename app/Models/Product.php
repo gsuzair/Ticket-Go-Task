@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\Constants;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -25,7 +26,7 @@ class Product extends Model
     public static function getProductsWithPagination($requestData){
         $vendorId = $requestData['vendor_id'] ?? null;    
         $vendorName = $requestData['name'] ?? null;
-        $perPage =  $requestData['per_page'] ?? 15;
+        $perPage =  $requestData['per_page'] ?? Constants::PER_PAGE_DEFAULT;
         return Product::with(['vendor:id,name', 'ratings:product_id,name,rating,text'])
             ->when($vendorId || $vendorName, function ($query) use ($vendorId, $vendorName) {
                 $query->whereHas('vendor', function ($query) use ($vendorId, $vendorName) {
