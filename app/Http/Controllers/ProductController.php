@@ -76,12 +76,12 @@ class ProductController extends Controller implements ResponseInterface
      *         description="Successful retrieval of product data",
      *         @OA\JsonContent(
      *             type="object",
+     *             @OA\Property(property="status_code", type="integer", example=200, description="HTTP status code."),
      *             @OA\Property(property="success", type="boolean", example=true, description="Indicates if the request was successful."),
      *             @OA\Property(property="message", type="string", example="Products retrieved successfully.", description="Status message."),
      *             @OA\Property(
      *                 property="data",
      *                 type="object",
-     *                 @OA\Property(property="current_page", type="integer", example=1, description="Current page number."),
      *                 @OA\Property(
      *                     property="data",
      *                     type="array",
@@ -114,6 +114,7 @@ class ProductController extends Controller implements ResponseInterface
      *                 @OA\Property(
      *                     property="meta",
      *                     type="object",
+     *                     @OA\Property(property="current_page", type="integer", example=1, description="Current page number."),
      *                     @OA\Property(property="first_page_url", type="string", example="http://ticket-go-task.test/api/products?page=1", description="URL of the first page."),
      *                     @OA\Property(property="last_page", type="integer", example=262, description="Last page number."),
      *                     @OA\Property(property="last_page_url", type="string", example="http://ticket-go-task.test/api/products?page=262", description="URL of the last page."),

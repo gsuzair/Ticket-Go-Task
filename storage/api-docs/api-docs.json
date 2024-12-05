@@ -61,6 +61,11 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
+                                        "status_code": {
+                                            "description": "HTTP status code.",
+                                            "type": "integer",
+                                            "example": 200
+                                        },
                                         "success": {
                                             "description": "Indicates if the request was successful.",
                                             "type": "boolean",
@@ -73,11 +78,6 @@
                                         },
                                         "data": {
                                             "properties": {
-                                                "current_page": {
-                                                    "description": "Current page number.",
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
                                                 "data": {
                                                     "description": "List of products.",
                                                     "type": "array",
@@ -148,6 +148,11 @@
                                                 },
                                                 "meta": {
                                                     "properties": {
+                                                        "current_page": {
+                                                            "description": "Current page number.",
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
                                                         "first_page_url": {
                                                             "description": "URL of the first page.",
                                                             "type": "string",
