@@ -138,13 +138,24 @@ class ProductController extends Controller implements ResponseInterface
      *         )
      *     ),
      *     @OA\Response(
-     *         response=400,
-     *         description="Error response",
-     *         @OA\JsonContent(
+     *         response=422,
+     *     description="Validation error response",
+     *     @OA\JsonContent(
+     *         type="object",
+     *         @OA\Property(property="status_code", type="integer", example=422, description="HTTP status code."),
+     *         @OA\Property(property="success", type="boolean", example=false, description="Indicates if the request was successful."),
+     *         @OA\Property(property="message", type="string", example="Validation errors.", description="Error message."),
+     *         @OA\Property(
+     *             property="errors",
      *             type="object",
-     *             @OA\Property(property="success", type="boolean", example=false, description="Indicates if the request failed."),
-     *             @OA\Property(property="message", type="string", example="Bad request.", description="Error message.")
-     *         )
+     *             description="Details of validation errors.",
+     *             @OA\AdditionalProperties(
+     *                 type="array",
+     *                 @OA\Items(type="string", example="Page must be at least 1.")
+     *             )
+     *         ),
+     *         @OA\Property(property="data", type="null", example=null, description="Optional data, usually null in error responses.")
+     *     )
      *     )
      * )
      */
