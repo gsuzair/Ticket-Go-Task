@@ -16,6 +16,8 @@
         </style>
     </head>
     <body class="antialiased">
-        For Api Documentation: Documentation link here
+        <h1>
+            For Api Documentation: <a href="{{ url('/api/documentation') }}" target="_blank">Click Here</a>
+        </h1>
     </body>
 </html>

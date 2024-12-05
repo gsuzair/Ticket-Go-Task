@@ -29,7 +29,7 @@ class ProductsTableSeeder extends Seeder
             foreach ($vendors as $vendor) {
                 $numProducts = rand( Constants::NUM_OF_PRODUCTS_START,  Constants::NUM_OF_PRODUCTS_END);
                 for ($j = 0; $j < $numProducts; $j++) {
-                    $productName = $fakerProductFirstName[rand(Constants::START_LENGTH, Constants::PRODUCT_NAME_END_LENGTH)]." ".$fakerProductSecondName[rand(rand(Constants::START_LENGTH, Constants::PRODUCT_NAME_END_LENGTH))];
+                    $productName = $fakerProductFirstName[rand(Constants::START_LENGTH, Constants::PRODUCT_NAME_END_LENGTH)]." ".$fakerProductSecondName[rand(Constants::START_LENGTH, Constants::PRODUCT_NAME_END_LENGTH)];
                     $values[] = "({$vendor->id}, '{$productName}', NOW(), NOW())";
                 }
             }
