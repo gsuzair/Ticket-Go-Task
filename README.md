@@ -21,6 +21,8 @@ This repository contains a solution to the assigned task. Follow the instruction
 - Create a .env file by copying the .env.example:
 cp .env.example .env
 - Update the .env file with database credentials and other settings as needed.
+- Also run this command after updating the .env file:
+  php artisan config:cache
 4. **Run Migrations**
 - Set up the database schema:
   php artisan migrate
