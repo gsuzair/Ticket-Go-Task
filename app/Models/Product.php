@@ -23,8 +23,9 @@ class Product extends Model
         return $this->belongsTo(Vendor::class);
     }
 
-    public static function getProductsWithPagination($requestData){
-        $vendorId = $requestData['vendor_id'] ?? null;    
+    public static function getProductsWithPagination($requestData)
+    {
+        $vendorId = $requestData['vendor_id'] ?? null;
         $productName = $requestData['name'] ?? null;
         $perPage =  $requestData['per_page'] ?? Constants::PER_PAGE_DEFAULT;
         return Product::with(['vendor:id,name', 'ratings:product_id,name,rating,text'])

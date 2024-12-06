@@ -161,7 +161,8 @@ class ProductController extends Controller implements ResponseInterface
      * )
      */
 
-    public function getProducts(ProductRequest $request){
+    public function getProducts(ProductRequest $request)
+    {
         try {
             $requestData = $request->validated();
             $products = $this->productService->getPaginatedProducts($requestData);

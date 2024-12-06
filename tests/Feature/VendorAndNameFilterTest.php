@@ -13,14 +13,18 @@ class VendorAndNameFilterTest extends TestCase
     /** @test */
     public function filters_products_by_vendor_id_and_name_using_existing_data()
     {
+        //given
         $vendor1 = Vendor::first(); 
         $vendor2 = Vendor::skip(1)->first(); 
 
         $product1 = Product::where('vendor_id', $vendor1->id)->first();
         $product2 = Product::where('vendor_id', $vendor2->id)->first();
-        $product3 = Product::where('vendor_id', $vendor1->id)->skip(1)->first(); 
+        $product3 = Product::where('vendor_id', $vendor1->id)->skip(1)->first();
+        
+        //when 
         $response = $this->getJson(route('products.index', ['vendor_id' => $vendor1->id]));
 
+        //then
         $filteredCountByVendor = Product::where('vendor_id', $vendor1->id)->count(); 
 
         $response->assertStatus(200);
