@@ -11,73 +11,78 @@ use Illuminate\Testing\Fluent\AssertableJson;
 class VendorAndNameFilterTest extends TestCase
 {
     /** @test */
-    public function filters_products_by_vendor_id_and_name_using_existing_data()
+    public function test_filters_products_by_vendor_id()
     {
-        //given
-        $vendor1 = Vendor::first(); 
-        $vendor2 = Vendor::skip(1)->first(); 
+        // Given
+        $vendor = Vendor::first();
+        $product1 = Product::where('vendor_id', $vendor->id)->first();
+        $product2 = Product::where('vendor_id', $vendor->id)->skip(1)->first();
+        $filteredCountByVendor = Product::where('vendor_id', $vendor->id)->count();
 
-        $product1 = Product::where('vendor_id', $vendor1->id)->first();
-        $product2 = Product::where('vendor_id', $vendor2->id)->first();
-        $product3 = Product::where('vendor_id', $vendor1->id)->skip(1)->first();
-        
-        //when 
-        $response = $this->getJson(route('products.index', ['vendor_id' => $vendor1->id]));
+        // When
+        $response = $this->getJson(route('products.index', ['vendor_id' => $vendor->id]));
 
-        //then
-        $filteredCountByVendor = Product::where('vendor_id', $vendor1->id)->count(); 
-
+        // Then
         $response->assertStatus(200);
-        $response->assertJson(function (AssertableJson $json) use ($product1, $product3, $filteredCountByVendor) {
-            $json->has('data') 
-                ->where('data.meta.total', $filteredCountByVendor) 
-                ->etc();
+        $response->assertJson(fn (AssertableJson $json) => 
+            $this->assertFilteredJsonResponse($json, [$product1, $product2], $filteredCountByVendor)
+        );
+    }
 
-            if ($filteredCountByVendor > 0) {
-                $json->where('data.data.0.name', $product1->name)
-                    ->where('data.data.1.name', $product3->name);
-            } else {
-                $json->where('data', [])
-                    ->where('data.meta.total', 0);
-            }
-        });
+    public function test_filters_products_by_name()
+    {
+        // Given
+        $product = Product::first();
+        $filteredCountByName = Product::where('name', $product->name)->count();
 
-        $response = $this->getJson(route('products.index', ['name' => $product1->name]));
-        $filteredCountByName = Product::where('name', $product1->name)->count();
+        // When
+        $response = $this->getJson(route('products.index', ['name' => $product->name]));
 
+        // Then
         $response->assertStatus(200);
-        $response->assertJson(function (AssertableJson $json) use ($product1, $filteredCountByName) {
-            $json->has('data') 
-                ->etc();
+        $response->assertJson(fn (AssertableJson $json) => 
+            $this->assertFilteredJsonResponse($json, [$product], $filteredCountByName)
+        );
+    }
 
-            if ($filteredCountByName > 0) {
-                $json->where('data.data.0.name', $product1->name);
-            } else {
-                $json->where('data', [])
-                    ->where('data.meta.total', 0);
-            }
-        });
+    public function test_filters_products_by_vendor_id_and_name()
+    {
+        // Given
+        $vendor = Vendor::first();
+        $product = Product::where('vendor_id', $vendor->id)->skip(1)->first();
+        $filteredCountByVendorAndName = Product::where('vendor_id', $vendor->id)
+                                            ->where('name', $product->name)
+                                            ->count();
 
+        // When
         $response = $this->getJson(route('products.index', [
-            'vendor_id' => $vendor1->id, 
-            'name' => $product3->name
+            'vendor_id' => $vendor->id,
+            'name' => $product->name,
         ]));
 
-        $filteredCountByVendorAndName = Product::where('vendor_id', $vendor1->id)
-                                                ->where('name', $product3->name)
-                                                ->count();
-
+        // Then
         $response->assertStatus(200);
-        $response->assertJson(function (AssertableJson $json) use ($product3, $filteredCountByVendorAndName) {
-            $json->has('data') 
-                ->etc();
-
-            if ($filteredCountByVendorAndName > 0) {
-                $json->where('data.data.0.name', $product3->name);
-            } else {
-                $json->where('data', [])
-                    ->where('data.meta.total', 0);
-            }
-        });
+        $response->assertJson(fn (AssertableJson $json) => 
+            $this->assertFilteredJsonResponse($json, [$product], $filteredCountByVendorAndName)
+        );
     }
+
+    private function assertFilteredJsonResponse(AssertableJson $json, $products, $total)
+    {
+        $json->has('data.meta.total')
+            ->where('data.meta.total', $total)
+            ->etc();
+
+        if ($total > 0) {
+            foreach ($products as $index => $product) {
+                $json->where("data.data.$index.name", $product->name);
+            }
+        } else {
+            $json->where('data', [])
+                ->where('data.meta.total', 0);
+        }
+    }
+
+
+
 }
