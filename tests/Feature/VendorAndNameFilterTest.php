@@ -33,7 +33,7 @@ class VendorAndNameFilterTest extends TestCase
     {
         // Given
         $product = Product::first();
-        $filteredCountByName = Product::where('name', $product->name)->count();
+        $filteredCountByName = Product::where('name', 'like', '%' . strtolower($product->name) . '%')->count();
 
         // When
         $response = $this->getJson(route('products.index', ['name' => $product->name]));
@@ -51,7 +51,7 @@ class VendorAndNameFilterTest extends TestCase
         $vendor = Vendor::first();
         $product = Product::where('vendor_id', $vendor->id)->skip(1)->first();
         $filteredCountByVendorAndName = Product::where('vendor_id', $vendor->id)
-                                            ->where('name', $product->name)
+                                            ->where('name', 'like', '%' . strtolower($product->name) . '%')
                                             ->count();
 
         // When
@@ -69,8 +69,7 @@ class VendorAndNameFilterTest extends TestCase
 
     private function assertFilteredJsonResponse(AssertableJson $json, $products, $total)
     {
-        $json->has('data.meta.total')
-            ->where('data.meta.total', $total)
+        $json->where('data.meta.total', $total)
             ->etc();
 
         if ($total > 0) {
