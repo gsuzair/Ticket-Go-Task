@@ -17,18 +17,18 @@ class ProductPaginationTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson(function (AssertableJson $json) {
             $json->where('status_code', 200)
-                 ->where('success', true)
-                 ->where('message', 'Products retrieved successfully.')
-                 ->has('data.data')
-                 ->has('data.meta', function (AssertableJson $meta) {
-                     $meta->where('current_page', 1)
-                          ->where('per_page', Constants::PER_PAGE_DEFAULT)
-                          ->has('total')
-                          ->has('last_page')
-                          ->has('first_page_url')
-                          ->has('last_page_url')
-                          ->etc(); 
-                 });
+                ->where('success', true)
+                ->where('message', 'Products retrieved successfully.')
+                ->has('data.data')
+                ->has('data.meta', function (AssertableJson $meta) {
+                    $meta->where('current_page', 1)
+                        ->where('per_page', Constants::PER_PAGE_DEFAULT)
+                        ->has('total')
+                        ->has('last_page')
+                        ->has('first_page_url')
+                        ->has('last_page_url')
+                        ->etc();
+                });
         });
     }
 
@@ -38,9 +38,9 @@ class ProductPaginationTest extends TestCase
         $response->assertStatus(200);
         $response->assertJson(function (AssertableJson $json) {
             $json->where('status_code', 200)
-                 ->where('success', true)
-                 ->where('message', 'No Products found.')
-                 ->has('data');
+                ->where('success', true)
+                ->where('message', 'No Products found.')
+                ->has('data');
         });
     }
 }

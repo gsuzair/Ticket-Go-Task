@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('ratings', function (Blueprint $table) {
-            $table->id(); 
-            $table->unsignedBigInteger('product_id'); 
-            $table->integer('rating')->unsigned(); 
-            $table->string('name'); 
-            $table->text('text'); 
-            $table->timestamps(); 
+            $table->id();
+            $table->unsignedBigInteger('product_id');
+            $table->integer('rating')->unsigned();
+            $table->string('name');
+            $table->text('text');
+            $table->timestamps();
 
             // Add foreign key constraint
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');

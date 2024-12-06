@@ -25,6 +25,5 @@ class VendorsTableSeeder extends Seeder
         }
 
         Vendor::insert($vendors);
-
     }
 }

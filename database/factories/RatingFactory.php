@@ -15,7 +15,7 @@ class RatingFactory extends Factory
     public function definition(): array
     {
         return [
-            'product_id' => null, 
+            'product_id' => null,
             'rating' => $this->faker->numberBetween(1, 5),
             'name' => $this->faker->name,
             'text' => $this->faker->description,

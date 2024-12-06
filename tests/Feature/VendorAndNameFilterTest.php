@@ -24,7 +24,8 @@ class VendorAndNameFilterTest extends TestCase
 
         // Then
         $response->assertStatus(200);
-        $response->assertJson(fn (AssertableJson $json) => 
+        $response->assertJson(
+            fn(AssertableJson $json) =>
             $this->assertFilteredJsonResponse($json, [$product1, $product2], $filteredCountByVendor)
         );
     }
@@ -40,7 +41,8 @@ class VendorAndNameFilterTest extends TestCase
 
         // Then
         $response->assertStatus(200);
-        $response->assertJson(fn (AssertableJson $json) => 
+        $response->assertJson(
+            fn(AssertableJson $json) =>
             $this->assertFilteredJsonResponse($json, [$product], $filteredCountByName)
         );
     }
@@ -51,8 +53,8 @@ class VendorAndNameFilterTest extends TestCase
         $vendor = Vendor::first();
         $product = Product::where('vendor_id', $vendor->id)->skip(1)->first();
         $filteredCountByVendorAndName = Product::where('vendor_id', $vendor->id)
-                                            ->where('name', 'like', '%' . strtolower($product->name) . '%')
-                                            ->count();
+            ->where('name', 'like', '%' . strtolower($product->name) . '%')
+            ->count();
 
         // When
         $response = $this->getJson(route('products.index', [
@@ -62,7 +64,8 @@ class VendorAndNameFilterTest extends TestCase
 
         // Then
         $response->assertStatus(200);
-        $response->assertJson(fn (AssertableJson $json) => 
+        $response->assertJson(
+            fn(AssertableJson $json) =>
             $this->assertFilteredJsonResponse($json, [$product], $filteredCountByVendorAndName)
         );
     }
@@ -81,7 +84,4 @@ class VendorAndNameFilterTest extends TestCase
                 ->where('data.meta.total', 0);
         }
     }
-
-
-
 }

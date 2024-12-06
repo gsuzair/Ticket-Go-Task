@@ -20,5 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('products')->group(function () {
-    Route::get('/', [ProductController::class, 'getProducts'])->name('products.index'); 
+    Route::get('/', [ProductController::class, 'getProducts'])->name('products.index');
 });
