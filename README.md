@@ -4,7 +4,7 @@ This repository contains a solution to the assigned task. Follow the instruction
 
 ## Prerequisites
 
-- PHP >= 7.x (check `composer.json` for compatibility)
+- PHP >= 8.x (check `composer.json` for compatibility)
 - Composer
 - MySQL (or the database specified in the `.env` file)
 - Ensure all other dependencies in `composer.json` are installed
